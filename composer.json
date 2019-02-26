@@ -1,0 +1,38 @@
+{
+  "name": "jlab/laravel-utilities",
+  "type": "library",
+  "description": "Package of reusable utilities for laravel applications used at JLab",
+  "authors": [
+    {
+      "name": "Theo Larrieu",
+      "email": "theo@jlab.org"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.1",
+    "illuminate/support": "5.7.x",
+    "laravel/tinker":   "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.0",
+    "orchestra/testbench": "~3.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jlab\\LaravelUtilities\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Jlab\\LaravelUtilities\\ValidationServiceProvider"
+      ]
+    }
+  }
+}
