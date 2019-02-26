@@ -11,7 +11,6 @@ namespace Jlab\LaravelUtilities\Rules;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Rule as RuleContract;
-use Illuminate\Validation\Validator;
 
 
 class InConfig implements RuleContract
@@ -21,9 +20,6 @@ class InConfig implements RuleContract
 
     /** @var string */
     protected $attribute;
-
-    /** Validator */
-    protected $validator;
 
 
     public function __construct($configField)

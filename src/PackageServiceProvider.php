@@ -48,7 +48,6 @@ class PackageServiceProvider extends ServiceProvider
 
         // The validator that checks a value is present in a config setting
         Validator::extend('in_config', function ($attribute, $value, $parameters, $validator) {
-            //dd(resolve('validator')->make(['foo' => 'c'], ['in'=>['a','b']]));
             $rule = new InConfig($parameters[0]);
             return $rule->passes($attribute, $value);
         });
