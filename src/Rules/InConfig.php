@@ -9,6 +9,7 @@
 namespace Jlab\LaravelUtilities\Rules;
 
 
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Rule as RuleContract;
 
@@ -27,8 +28,8 @@ class InConfig implements RuleContract
         // Note that in Laravel 5.8, the array_wrap and array_flatten helpers used
         // below will become deprecated.
         // @see https://laravel-news.com/laravel-5-8-deprecates-string-and-array-helpers
-        $values =  array_wrap(config(trim($configField),[]));
-        $this->validValues = array_flatten($values);
+        $values =  Arr::wrap(config(trim($configField),[]));
+        $this->validValues = Arr::flatten($values);
     }
 
     public function passes($attribute, $value): bool

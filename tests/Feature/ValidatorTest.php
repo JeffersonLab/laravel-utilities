@@ -19,7 +19,7 @@ class ValidatorTest extends TestCase
 
     protected $rules;
 
-    function setUp()
+    function setUp(): void
     {
         parent::setUp();
 
