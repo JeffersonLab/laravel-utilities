@@ -13,7 +13,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Rule as RuleContract;
 
-
+/**
+ * Rule to validate that a value exists within a specified set of configuration values.
+ */
 class InConfig implements RuleContract
 {
     /** @var array */
@@ -22,16 +24,18 @@ class InConfig implements RuleContract
     /** @var string */
     protected $attribute;
 
-
+    /**
+     * @param string $configField - the name of the configuration field in dot notation (ex: app.settings)
+     */
     public function __construct($configField)
     {
-        // Note that in Laravel 5.8, the array_wrap and array_flatten helpers used
-        // below will become deprecated.
-        // @see https://laravel-news.com/laravel-5-8-deprecates-string-and-array-helpers
         $values =  Arr::wrap(config(trim($configField),[]));
         $this->validValues = Arr::flatten($values);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function passes($attribute, $value): bool
     {
         // Store for later error message generation
@@ -42,6 +46,9 @@ class InConfig implements RuleContract
         return $this->validator($value)->passes();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function message(): string
     {
         return str_replace(':attribute',$this->attribute, ':attribute does not equal a valid configuration value');

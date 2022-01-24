@@ -63,6 +63,10 @@ abstract class BaseModel extends Model
     /**
      * Returns the model's validation rules.
      *
+     * Child classes can override this method in order define validation rules
+     * that cannot be captured completelty in the static $rules parameter.  For
+     * example rules that rely upon dynamic
+     *
      * @return array
      */
     public function rules()
@@ -91,7 +95,7 @@ abstract class BaseModel extends Model
      */
     public function validate()
     {
-        $validator = Validator::make($this->attributes, static::$rules, static::$messages);
+        $validator = Validator::make($this->attributes, $this->rules(), static::$messages);
         if ($validator->passes()) {
             $this->validationErrors = new MessageBag();
             return true;
