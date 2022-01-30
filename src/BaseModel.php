@@ -74,6 +74,26 @@ abstract class BaseModel extends Model
         return static::$rules;
     }
 
+    /**
+     * Returns the model's validation error messages.
+     *
+     * Child classes can override this method in order define custom error messages
+     * to go with custom rules.
+     *
+     * @return array
+     */
+    public function messages(){
+        return static::$messages;
+    }
+
+    /**
+     * Returns a Validator to validate the object.
+     *
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public function getValidator(){
+        return Validator::make($this->attributes, $this->rules(), $this->messages());
+    }
 
     /**
      * Validates and then saves the model.
@@ -95,7 +115,7 @@ abstract class BaseModel extends Model
      */
     public function validate()
     {
-        $validator = Validator::make($this->attributes, $this->rules(), static::$messages);
+        $validator = $this->getValidator();
         if ($validator->passes()) {
             $this->validationErrors = new MessageBag();
             return true;
