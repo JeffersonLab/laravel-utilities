@@ -108,6 +108,11 @@ $model->hasErrors();       // false only b/c we didn't check!
 
 Of course when bypassing validation checks, there is even more onus is on the user to handle outcomes such as database exceptions that might be caused by trying to save bad data.
 
+#### Model Events
+
+BaseModel adds *validating* and *validated* events to supplement the existing *created*, *creating*, *saved*, *saving*, etc.
+[events available on standared Eloquent models](https://www.techiediaries.com/laravel-model-events-tutorial/)
+
 
 ## Contributing
 

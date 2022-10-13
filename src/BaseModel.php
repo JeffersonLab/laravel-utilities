@@ -87,6 +87,28 @@ abstract class BaseModel extends Model
     }
 
     /**
+     * Register a validating model event with the dispatcher.
+     *
+     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @return void
+     */
+    public static function validating($callback)
+    {
+        static::registerModelEvent('validating', $callback);
+    }
+
+    /**
+     * Register a validating model event with the dispatcher.
+     *
+     * @param  \Illuminate\Events\QueuedClosure|\Closure|string|array  $callback
+     * @return void
+     */
+    public static function validated($callback)
+    {
+        static::registerModelEvent('validated', $callback);
+    }
+
+    /**
      * Returns a Validator to validate the object.
      *
      * @return \Illuminate\Contracts\Validation\Validator
@@ -115,14 +137,26 @@ abstract class BaseModel extends Model
      */
     public function validate()
     {
+        // If the "validating" event returns false we'll bail out of the validation and return
+        // false, indicating that the validation did not occur. This provides a chance for any
+        // listeners to cancel validation.
+        if ($this->fireModelEvent('validating') === false) {
+            return false;
+        }
+
         $validator = $this->getValidator();
         if ($validator->passes()) {
             $this->validationErrors = new MessageBag();
-            return true;
+            return $this->finishValidate(true);
         } else {
             $this->validationErrors = $validator->errors();
         }
-        return false;
+        return $this->finishValidate(false);
+    }
+
+    protected function finishValidate($result){
+        $this->fireModelEvent('validated');
+        return $result;
     }
 
     /**
