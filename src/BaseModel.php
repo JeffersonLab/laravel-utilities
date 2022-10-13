@@ -147,16 +147,13 @@ abstract class BaseModel extends Model
         $validator = $this->getValidator();
         if ($validator->passes()) {
             $this->validationErrors = new MessageBag();
-            return $this->finishValidate(true);
+            // The validated event only gets fired after a successful validation
+            $this->fireModelEvent('validated');
+            return true;
         } else {
             $this->validationErrors = $validator->errors();
         }
-        return $this->finishValidate(false);
-    }
-
-    protected function finishValidate($result){
-        $this->fireModelEvent('validated');
-        return $result;
+        return false;
     }
 
     /**
