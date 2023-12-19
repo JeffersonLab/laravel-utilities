@@ -45,4 +45,17 @@ class BaseModelTest extends TestCase
         $this->assertFalse($model->hasErrors());  // only we bypassed the check!
     }
 
+    function test_it_fires_validating_and_validated_events(){
+        $model = new TestModel(['username'=>'jdoe']);
+        $this->assertTrue($model->save());
+        $this->assertContains('validating',$model->eventLog);
+        $this->assertContains('validated',$model->eventLog);
+    }
+
+    function test_it_fires_validating_not_validated_events(){
+        $model = new TestModel(['username'=>'jdoeistoolongfor8charlimit']);
+        $this->assertFalse($model->save());
+        $this->assertContains('validating',$model->eventLog);
+        $this->assertNotContains('validated',$model->eventLog);
+    }
 }

@@ -113,6 +113,8 @@ Of course when bypassing validation checks, there is even more onus is on the us
 BaseModel adds *validating* and *validated* events to supplement the existing *created*, *creating*, *saved*, *saving*, etc.
 [events available on standared Eloquent models](https://www.techiediaries.com/laravel-model-events-tutorial/)
 
+Returning false from the listener of *validating* will cancel validation.
+The *validated* event is only dispatched following a successful validation.
 
 ## Contributing
 
